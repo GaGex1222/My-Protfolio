@@ -41,28 +41,62 @@ const skills = [
 export default function CleanWebsite() {
   const [form, setForm] = useState({ name: '', email: '', message: '' });
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setForm({ ...form, [e.target.name]: e.target.value });
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const [status, setStatus] = React.useState<{ type: 'success' | 'error'; message: string } | null>(null);
+  const [loading, setLoading] = React.useState(false)
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    alert(`Thanks ${form.name}, I'll be in touch soon!`);
-    setForm({ name: '', email: '', message: '' });
+    try {
+      setLoading(true)
+      const response = await fetch("/api/email/send", {
+        method: "POST",
+        body: JSON.stringify({
+          email: form.email,
+          name: form.name,
+          message: form.message
+        }),
+        headers: { "Content-Type": "application/json" }
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setStatus({ type: 'success', message: `Thanks ${form.name}, I'll be in touch soon!` });
+        setForm({ name: '', email: '', message: '' });
+      } else {
+        setStatus({ type: 'error', message: data.error || "Something went wrong. Please try again." });
+      }
+    } catch {
+      setStatus({ type: 'error', message: "Network error. Please try again later." });
+    }
+    setLoading(false)
   };
+
 
   return (
     <div className="min-h-screen bg-gradient-to-tr from-blue-900 via-blue-800 to-blue-700 text-slate-100 px-8 py-16 font-mono select-none">
-      {/* Header */}
-      <motion.header
+      <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
-        className="max-w-6xl mx-auto mb-20 text-center md:text-left"
+        className="max-w-6xl mx-auto mb-20 flex flex-col md:flex-row items-center gap-10"
       >
-        <h1 className="text-5xl font-bold mb-4 tracking-tight">Gal Dadon</h1>
-        <p className="text-lg max-w-xl mx-auto md:mx-0 text-slate-300">
-          Driven by curiosity and a love for technology, I specialize in building real-world apps with clean, scalable code across the full stack — all self-taught through hands-on projects and personal dedication.
-        </p>
-      </motion.header>
 
-      {/* Projects */}
+        <header className="flex-1 text-center md:text-left">
+          <h1 className="text-5xl font-bold mb-4 tracking-tight">Gal Dadon</h1>
+          <p className="text-lg max-w-xl text-slate-300">
+            Driven by curiosity and a love for programming, I specialize in building real-world apps with clean, scalable code across the full stack — all self-taught through hands-on projects and personal dedication.
+          </p>
+        </header>
+
+
+        <div className="flex-1 w-full max-w-xs">
+          <img
+            src="/me.jpeg"
+            alt="Gal Dadon"
+            className="rounded-xl shadow-lg w-full h-full object-cover object-top"
+          />
+        </div>
+      </motion.div>
+
+
       <section className="max-w-6xl mx-auto mb-24 grid grid-cols-1 md:grid-cols-3 gap-10">
         {projects.map(({ title, description, url, image }, i) => (
           <motion.a
@@ -84,7 +118,7 @@ export default function CleanWebsite() {
         ))}
       </section>
 
-      {/* Skills */}
+
       <section className="max-w-6xl mx-auto mb-24 py-12">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
@@ -114,7 +148,7 @@ export default function CleanWebsite() {
         </motion.div>
       </section>
 
-      {/* Contact Form */}
+
       <motion.section
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -152,7 +186,8 @@ export default function CleanWebsite() {
           />
           <button
             type="submit"
-            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 rounded-md transition"
+            disabled={loading}
+            className={` text-white font-semibold py-4 rounded-md transition ${loading ? "bg-gray-400": "bg-blue-600 hover:bg-blue-700"}`}
           >
             Send Message
           </button>
@@ -166,6 +201,15 @@ export default function CleanWebsite() {
             Discord: <span className="text-blue-400">GaGex</span>
           </p>
         </div>
+        {status && (
+          <div
+            className={`mt-6 p-4 rounded-md text-center ${
+              status.type === 'success' ? 'bg-green-600 text-green-100' : 'bg-red-600 text-red-100'
+            }`}
+          >
+            {status.message}
+          </div>
+        )}
       </motion.section>
     </div>
   );
