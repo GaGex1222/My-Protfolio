@@ -83,7 +83,7 @@ export default function CleanWebsite() {
       <header className="flex-1 text-center md:text-left">
         <h1 className="text-5xl font-bold mb-4 tracking-tight">Gal Dadon</h1>
         <p className="text-lg max-w-xl text-slate-300">
-          I’m a 19-year-old developer from Israel, constantly pushing myself to learn and build more, Driven by curiosity and a love for programming, I specialize in building real-world apps with clean, scalable code across the full stack — all self-taught through hands-on projects and personal dedication.
+          I’m a 18-year-old developer from Israel, constantly pushing myself to learn and build more, Driven by curiosity and a love for programming, I specialize in building real-world apps with clean, scalable code across the full stack — all self-taught through hands-on projects and personal dedication.
         </p>
         <button className="mt-6 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-md shadow-md transition" onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}>
           Lets Talk!
