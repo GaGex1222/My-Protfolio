@@ -230,6 +230,17 @@ export default function CleanWebsite() {
               @GaGex1222
             </a>
           </p>
+                    <p className="mt-2">
+            Linkedin:{" "}
+            <a
+              href="https://www.linkedin.com/in/gal-dadon-58ba19307/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-400 hover:underline"
+            >
+              @Gal Dadon
+            </a>
+          </p>
           <p className="mt-1">
             Discord: <span className="text-blue-400">GaGex</span>
           </p>
