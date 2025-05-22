@@ -30,7 +30,7 @@ const skills = [
   { name: 'Python', iconName: 'python' },
   { name: 'C#', iconName: 'csharp' },
   { name: 'Tailwind CSS', iconName: 'tailwindcss' },
-  { name: 'Next', iconName: 'nextjs' },
+  { name: 'Next', iconName: 'nextjs2' },
   { name: 'Flask', iconName: 'flask' },
   { name: 'Node.js', iconName: 'nodejs' },
   { name: 'PostgreSQL', iconName: 'postgresql' },
@@ -74,17 +74,21 @@ export default function CleanWebsite() {
     <div className="min-h-screen bg-gradient-to-tr from-blue-900 via-blue-800 to-blue-700 text-slate-100 px-8 py-16 font-mono select-none">
       <motion.div
         initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
         transition={{ duration: 1 }}
         className="max-w-6xl mx-auto mb-20 flex flex-col md:flex-row items-center gap-10"
       >
 
-        <header className="flex-1 text-center md:text-left">
-          <h1 className="text-5xl font-bold mb-4 tracking-tight">Gal Dadon</h1>
-          <p className="text-lg max-w-xl text-slate-300">
-            Driven by curiosity and a love for programming, I specialize in building real-world apps with clean, scalable code across the full stack — all self-taught through hands-on projects and personal dedication.
-          </p>
-        </header>
+      <header className="flex-1 text-center md:text-left">
+        <h1 className="text-5xl font-bold mb-4 tracking-tight">Gal Dadon</h1>
+        <p className="text-lg max-w-xl text-slate-300">
+          I’m a 19-year-old developer from Israel, constantly pushing myself to learn and build more, Driven by curiosity and a love for programming, I specialize in building real-world apps with clean, scalable code across the full stack — all self-taught through hands-on projects and personal dedication.
+        </p>
+        <button className="mt-6 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-md shadow-md transition" onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}>
+          Lets Talk!
+        </button>
+      </header>
 
 
         <div className="flex-1 w-full max-w-xs">
@@ -105,7 +109,8 @@ export default function CleanWebsite() {
             target="_blank"
             rel="noopener noreferrer"
             initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
             transition={{ delay: 0.2 + i * 0.15, duration: 0.5, ease: 'easeOut' }}
             className="transform hover:scale-105 transition-transform rounded-xl overflow-hidden shadow-xl bg-blue-900 hover:bg-blue-800"
           >
@@ -122,8 +127,9 @@ export default function CleanWebsite() {
       <section className="max-w-6xl mx-auto mb-24 py-12">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.6 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
           className="text-4xl font-bold mb-8 text-center tracking-wide"
         >
           Tech Stack
@@ -131,15 +137,16 @@ export default function CleanWebsite() {
         <motion.div
           className="flex flex-wrap justify-center gap-12"
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.8 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
         >
           {skills.map(({ name, iconName }) => (
             <motion.div
               key={name}
               className="flex flex-col items-center space-y-2 text-slate-300 cursor-default"
               whileHover={{ scale: 1.1, color: '#60a5fa' }}
-              transition={{ type: 'spring', stiffness: 300 }}
+              transition={{ type: 'spring', stiffness: 900 }}
             >
               <StackIcon name={iconName} />
               <span className="mt-2 text-sm font-medium">{name}</span>
@@ -151,11 +158,16 @@ export default function CleanWebsite() {
 
       <motion.section
         initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.8, delay: 0.3 }}
+        id='contact'
         className="max-w-4xl mx-auto bg-blue-900 rounded-xl p-10 shadow-lg border border-blue-700"
       >
-        <h2 className="text-3xl font-bold mb-8 text-center">Let's Talk</h2>
+        <h2 className="text-3xl font-bold mb-4 text-center">Let's Talk</h2>
+        <p className="text-center text-slate-300 mb-8">
+          Feel free to reach out for anything — a project, a collaboration, or just to talk about life!
+        </p>
         <form onSubmit={handleSubmit} className="flex flex-col gap-6">
           <input
             type="text"
@@ -187,7 +199,9 @@ export default function CleanWebsite() {
           <button
             type="submit"
             disabled={loading}
-            className={` text-white font-semibold py-4 rounded-md transition ${loading ? "bg-gray-400": "bg-blue-600 hover:bg-blue-700"}`}
+            className={` text-white shadow-md font-semibold py-4 rounded-md transition ${
+              loading ? "bg-gray-400" : "bg-blue-600 hover:bg-blue-700"
+            }`}
           >
             Send Message
           </button>
@@ -195,7 +209,26 @@ export default function CleanWebsite() {
         <div className="mt-10 text-center text-slate-300">
           <p>You can also reach me here:</p>
           <p className="mt-2">
-            Instagram: <a href="https://instagram.com/gal_dadon1212" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">@gal_dadon1212</a>
+            Instagram:{" "}
+            <a
+              href="https://instagram.com/gal_dadon1212"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-400 hover:underline"
+            >
+              @gal_dadon1212
+            </a>
+          </p>
+          <p className="mt-2">
+            Github:{" "}
+            <a
+              href="https://github.com/GaGex1222"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-400 hover:underline"
+            >
+              @GaGex1222
+            </a>
           </p>
           <p className="mt-1">
             Discord: <span className="text-blue-400">GaGex</span>
@@ -204,13 +237,19 @@ export default function CleanWebsite() {
         {status && (
           <div
             className={`mt-6 p-4 rounded-md text-center ${
-              status.type === 'success' ? 'bg-green-600 text-green-100' : 'bg-red-600 text-red-100'
+              status.type === "success"
+                ? "bg-green-600 text-green-100"
+                : "bg-red-600 text-red-100"
             }`}
           >
             {status.message}
           </div>
         )}
       </motion.section>
+      <footer className="text-center text-slate-400 mt-24  border-t border-blue-800 pt-8">
+        <p>© {new Date().getFullYear()} Gal Dadon. All rights reserved.</p>
+        <p className="mt-1 text-sm">Made with ❤️ using Next.js, Tailwind, and Framer Motion</p>
+      </footer>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 // app/api/email/send/route.ts
 import { NextResponse } from 'next/server'
-const nodemailer = require("nodemailer");
+import { Resend } from 'resend';
 
 
 export async function POST(req: Request) {
@@ -9,26 +9,13 @@ export async function POST(req: Request) {
     // example: extract and use email data
     const { name, email, message } = data
     try{
-        const transporter = nodemailer.createTransport({
-            host: "smtp.gmail.com",
-
-            auth: {
-                user: "galalsops@gmail.com",
-                pass: process.env.GMAIL_APP_PASSWORD,
-            },
-
-            
-        });
-
-        let mailOptions = {
-            from: email,
+        const resend = new Resend(process.env.RESEND_API_KEY);
+        await resend.emails.send({
+            from: 'galdadon@galdadon.com',
             to: 'gald12123434@gmail.com',
-            subject: `A message from a potential customer named ${name}`,
-            text: `Email: ${email}\n${message}`,
-        };
-        // send email logic here...
-        let info = await transporter.sendMail(mailOptions);
-        console.log('Email sent:', info.response);
+            subject: 'A message from my website has arrived!',
+            text: `${message}\n\nName: ${name} \n\nReply to: ${email}`
+        });
     } catch(err){
         return NextResponse.json({ success: false }, {status: 500})
     }
