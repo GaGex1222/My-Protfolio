@@ -6,21 +6,27 @@ import StackIcon from 'tech-stack-icons';
 const projects = [
   {
     title: 'Rummikub Multiplayer',
-    description: 'A full multiplayer Rummikub game with real-time gameplay, user authentication, and secure communication.',
+    description: 'A full multiplayer Rummikub game with real-time gameplay, user authentication, and secure communication. Built with Python, WebSockets, customTkinter, and SQLite.',
     url: 'https://github.com/GaGex1222/RummikubMultiplayer',
     image: '/rummikub.png',
   },
   {
     title: 'Trivia Competitor',
-    description: 'A trivia competetive site that allow users to create & play differnet trivias with score.',
+    description: 'A trivia competitive site that allows users to create & play different trivia games with score tracking. Built with Nextjs, Drizzle, and Tailwind CSS.',
     url: 'https://trivia-competitor-vy24.vercel.app/',
     image: '/trivia.png',
   },
   {
     title: 'Mood Sync',
-    description: 'An emotion-based music app that plays songs based on your mood using facial recognition and AI.',
+    description: 'An emotion-based music app that plays songs based on your mood using facial recognition and AI. Built with Python, Nextjs, and TensorFlow.',
     url: 'https://github.com/GaGex1222/Mood-Sync#',
     image: 'moodsync.png',
+  },
+  {
+    title: 'Osu! Discord Bot',
+    description: 'A Discord bot that lets users view osu! profiles, compare scores, and track friends\' activity using the osu! API. Built in Python with Selenium and Discord.py.',
+    url: 'https://github.com/GaGex1222/osu-friends-discord-bot',
+    image: 'osu.png',
   }
 ];
 
@@ -101,7 +107,7 @@ export default function CleanWebsite() {
       </motion.div>
 
 
-      <section className="max-w-6xl mx-auto mb-24 grid grid-cols-1 md:grid-cols-3 gap-10">
+      <section className="max-w-7xl mx-auto mb-24 grid grid-cols-1 md:grid-cols-4 gap-10">
         {projects.map(({ title, description, url, image }, i) => (
           <motion.a
             key={title}
