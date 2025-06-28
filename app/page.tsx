@@ -437,7 +437,7 @@ export default function ReimaginedPortfolio() {
                             whileHover={{ scale: 1.15, color: '#A3E635' }}
                             transition={{ type: 'spring', stiffness: 900, damping: 15 }}
                         >
-                            <StackIcon variant={name === "flask" ? "dark" : "default"} name={iconName} className="w-18 h-18 text-gray-200" />
+                            <StackIcon name={iconName} className="w-18 h-18 text-gray-200" />
                             <span className="mt-2 text-lg font-medium">{name}</span>
                         </motion.div>
                     ))}
