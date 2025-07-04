@@ -303,7 +303,7 @@ export default function ReimaginedPortfolio() {
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 1, delay: 0.8, type: "spring", stiffness: 100, damping: 10 }}
-                        className="flex-1 w-full max-w-xs md:max-w-md rounded-full overflow-hidden shadow-2xl border-4 border-lime-500 ring-4 ring-lime-700 ring-opacity-50"
+                        className="w-96 h-96 rounded-full overflow-hidden shadow-2xl border-4 border-lime-500 ring-4 ring-lime-700 ring-opacity-50"
                     >
                         <img
                             src="/me.jpeg"
