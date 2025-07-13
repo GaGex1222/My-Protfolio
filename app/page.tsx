@@ -87,16 +87,16 @@ const Navbar = () => {
         { name: 'צור קשר', id: 'contact', icon: <Mail size={20} /> },
     ];
 
-    // Animation variants for the mobile menu overlay
+    // Animation variants for the mobile menu dropdown
     const mobileMenuVariants = {
-        hidden: { x: "100%", opacity: 0 },
-        visible: { x: 0, opacity: 1, transition: { type: "tween", ease: "easeOut", duration: 0.3 } },
-        exit: { x: "100%", opacity: 0, transition: { type: "tween", ease: "easeIn", duration: 0.3 } },
+        hidden: { y: -100, opacity: 0 },
+        visible: { y: 0, opacity: 1, transition: { type: "tween", ease: "easeOut", duration: 0.3 } },
+        exit: { y: -100, opacity: 0, transition: { type: "tween", ease: "easeIn", duration: 0.3 } },
     };
 
     // Animation variants for individual links in the mobile menu
     const mobileLinkVariants = {
-        hidden: { opacity: 0, x: 50 },
+        hidden: { opacity: 0, x: 20 },
         visible: { opacity: 1, x: 0 },
     };
 
@@ -156,7 +156,7 @@ const Navbar = () => {
                 </div>
             </div>
 
-            {/* Mobile Menu Overlay with AnimatePresence */}
+            {/* Mobile Menu Dropdown with AnimatePresence */}
             <AnimatePresence>
                 {isMenuOpen && (
                     <motion.div
@@ -164,15 +164,15 @@ const Navbar = () => {
                         animate="visible"
                         exit="exit"
                         variants={mobileMenuVariants}
-                        // This overlay will slide in from the right
-                        className="md:hidden fixed inset-0 bg-[#0A0A0A] bg-opacity-95 backdrop-blur-xl flex flex-col items-center justify-center space-y-8 pt-20" // Reduced pt slightly
+                        // This dropdown will slide down from below the navbar
+                        className="md:hidden absolute top-full left-0 right-0 bg-[#1A1A1A] bg-opacity-95 shadow-lg py-4 border-t border-gray-800"
                         dir="rtl"
                     >
                         <motion.ul
-                            className="flex flex-col space-y-6"
+                            className="flex flex-col items-center space-y-4"
                             // Stagger children for entrance animation
                             variants={{
-                                visible: { transition: { staggerChildren: 0.07, delayChildren: 0.2 } },
+                                visible: { transition: { staggerChildren: 0.07, delayChildren: 0.1 } },
                                 hidden: { transition: { staggerChildren: 0.05, staggerDirection: -1 } },
                             }}
                         >
@@ -187,10 +187,10 @@ const Navbar = () => {
                                             e.preventDefault();
                                             scrollToSection(item.id);
                                         }}
-                                        className="flex items-center text-gray-100 hover:text-lime-400 transition-colors duration-300 text-3xl font-bold py-2"
+                                        className="flex items-center text-gray-100 hover:text-lime-400 transition-colors duration-300 text-xl font-medium py-2 px-4 rounded-md"
                                     >
                                         {item.icon}
-                                        <span className="mr-4">{item.name}</span>
+                                        <span className="mr-3">{item.name}</span>
                                     </a>
                                 </motion.li>
                             ))}
@@ -303,7 +303,7 @@ export default function ReimaginedPortfolio() {
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 1, delay: 0.8, type: "spring", stiffness: 100, damping: 10 }}
-                        className="w-96 h-96 rounded-full overflow-hidden shadow-2xl border-4 border-lime-500 ring-4 ring-lime-700 ring-opacity-50"
+                        className="flex-1 w-full max-w-xs md:max-w-md rounded-full overflow-hidden shadow-2xl border-4 border-lime-500 ring-4 ring-lime-700 ring-opacity-50"
                     >
                         <img
                             src="/me.jpeg"
