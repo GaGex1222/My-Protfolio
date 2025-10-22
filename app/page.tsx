@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence, color } from 'framer-motion';
 import StackIcon from 'tech-stack-icons';
 import { Sparkle, Code, GitBranch, MessageSquare, BriefcaseBusiness, User, Mail, Instagram, Linkedin, Puzzle, Terminal, Home, Menu, X } from 'lucide-react';
@@ -29,6 +29,12 @@ const projects = [
         description: 'בוט דיסקורד המאפשר למשתמשים לצפות בפרופילי osu!, להשוות ציונים, ולעקוב אחר פעילות חברים באמצעות ה-API של osu!. נבנה ב-Python עם Selenium ו-Discord.py.',
         url: 'https://github.com/GaGex1222/osu-friends-discord-bot',
         image: '/osu.png', // Corrected image path
+    },
+    {
+        title: 'NewChemi',
+        description: 'אתר נחיתה שנבנה לעסק של ייבוא כימיכקלים בישראל, נבנה עם nextjs',
+        url: 'https://newchemi.com',
+        image: '/newchemi.png', // Corrected image path
     }
 ];
 
@@ -72,6 +78,7 @@ const services = [
 // Refactored Navbar Component with Mobile Configuration
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [textLanguage, setTextLanguage] = useState("en");
 
     const scrollToSection = (id: string) => {
         document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
@@ -99,6 +106,15 @@ const Navbar = () => {
         hidden: { opacity: 0, x: 20 },
         visible: { opacity: 1, x: 0 },
     };
+
+    useEffect(() => {
+        const userLanguage = navigator.language
+        if(userLanguage.startsWith("he") || userLanguage.startsWith("iw")){
+            setTextLanguage("he")
+        } else {
+            setTextLanguage("en")
+        }
+    }, [])
 
     return (
         <motion.nav
@@ -303,7 +319,7 @@ export default function ReimaginedPortfolio() {
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 1, delay: 0.8, type: "spring", stiffness: 100, damping: 10 }}
-                        className="flex-1 w-full max-w-xs md:max-w-md rounded-full overflow-hidden shadow-2xl border-4 border-lime-500 ring-4 ring-lime-700 ring-opacity-50"
+                        className="flex-1 w-full max-w-xs md:max-w-md rounded-full border-3 border-lime-500 overflow-hidden shadow-2xl "
                     >
                         <img
                             src="/me.jpeg"
@@ -388,7 +404,7 @@ export default function ReimaginedPortfolio() {
                 >
                     <Code className="ml-4 text-lime-300" size={48} strokeWidth={1.5} /> הפרויקטים שלי
                 </motion.h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
                     {projects.map(({ title, description, url, image }, i) => (
                         <motion.a
                             key={title}
