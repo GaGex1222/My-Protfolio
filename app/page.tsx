@@ -1,582 +1,288 @@
 'use client'
-import React, { useEffect, useState } from 'react';
-import { motion, AnimatePresence, color } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import StackIcon from 'tech-stack-icons';
-import { Sparkle, Code, GitBranch, MessageSquare, BriefcaseBusiness, User, Mail, Instagram, Linkedin, Puzzle, Terminal, Home, Menu, X } from 'lucide-react';
+import { Sparkle, Code, GitBranch, BriefcaseBusiness, Mail, Instagram, Linkedin, Puzzle, Terminal, Home, Menu, X, Rocket, ShieldCheck, ChevronLeft, Loader2 } from 'lucide-react';
 import { TypeAnimation } from 'react-type-animation';
 
+// --- DATA ---
 const projects = [
     {
         title: 'רמיקוב מרובה משתתפים',
-        description: 'משחק רמיקוב מרובה משתתפים מלא עם משחק בזמן אמת, אימות משתמשים, ותקשורת מאובטחת. נבנה עם Python, WebSockets, customTkinter, ו-SQLite.',
+        description: 'משחק רמיקוב מלא עם Real-time WebSockets. חווית משחק חלקה וממשק משתמש מודרני.',
         url: 'https://github.com/GaGex1222/RummikubMultiplayer',
         image: '/rummikub.png',
+        tags: ['Python', 'WebSockets', 'SQLite']
     },
     {
         title: 'מתחרה טריוויה',
-        description: 'אתר תחרותי לטריוויה המאפשר למשתמשים ליצור ולשחק משחקי טריוויה שונים עם מעקב ניקוד. נבנה עם Next.js, Drizzle, ו-Tailwind CSS.',
+        description: 'פלטפורמת טריוויה תחרותית עם לוחות ניקוד וניהול משתמשים בזמן אמת.',
         url: 'https://trivia-competitor-vy24.vercel.app/',
         image: '/trivia.png',
+        tags: ['Next.js', 'Tailwind', 'Vercel']
     },
     {
         title: 'Mood Sync',
-        description: 'אפליקציית מוזיקה מבוססת רגשות המנגנת שירים בהתאם למצב הרוח שלך באמצעות זיהוי פנים ובינה מלאכותית. נבנה עם Python, Next.js, ו-TensorFlow.',
+        description: 'בינה מלאכותית המזהה רגשות דרך המצלמה ומתאימה פלייליסט אישי ב-Spotify.',
         url: 'https://github.com/GaGex1222/Mood-Sync#',
-        image: '/moodsync.png', // Corrected image path
-    },
-    {
-        title: 'בוט דיסקורד Osu!',
-        description: 'בוט דיסקורד המאפשר למשתמשים לצפות בפרופילי osu!, להשוות ציונים, ולעקוב אחר פעילות חברים באמצעות ה-API של osu!. נבנה ב-Python עם Selenium ו-Discord.py.',
-        url: 'https://github.com/GaGex1222/osu-friends-discord-bot',
-        image: '/osu.png', // Corrected image path
+        image: '/moodsync.png',
+        tags: ['AI', 'Python', 'React']
     },
     {
         title: 'NewChemi',
-        description: 'אתר נחיתה שנבנה לעסק של ייבוא כימיכקלים בישראל, נבנה עם nextjs',
+        description: 'אתר נחיתה מקצועי שנבנה עבור עסק לייבוא כימיקלים, תוך דגש על מהירות וביצועים.',
         url: 'https://newchemi.com',
-        image: '/newchemi.png', // Corrected image path
+        image: '/newchemi.png',
+        tags: ['Next.js', 'UI/UX']
     }
 ];
 
-const skills = [
-    { name: 'JavaScript', iconName: 'js' },
-    { name: 'TypeScript', iconName: 'typescript' },
-    { name: 'Python', iconName: 'python' },
-    { name: 'C#', iconName: 'csharp' },
-    { name: 'Tailwind CSS', iconName: 'tailwindcss' },
-    { name: 'Next', iconName: 'nextjs2' },
-    { name: 'Flask', iconName: 'flask' },
-    { name: 'Node.js', iconName: 'nodejs' },
-    { name: 'PostgreSQL', iconName: 'postgresql' },
-    { name: 'MongoDB', iconName: 'mongodb' },
-    { name: 'Git', iconName: 'git' }
-];
-
-const aboutContent = {
-    paragraph1: "בגיל 18 בלבד, צברתי ניסיון רב בפיתוח יישומים מגוונים, התחלתי הכל מאפס והגעתי עד לאפליקציות חכמות המשלבות בינה מלאכותית. אני מאמין שהדרך הטובה ביותר ללמוד היא דרך עשייה, ולכן אני תמיד מחפש את הפרויקט הבא שיאתגר אותי וידחוף אותי קדימה.",
-    paragraph2: "התשוקה שלי טמונה ביצירת פתרונות אלגנטיים ויעילים לבעיות מורכבות. אני שם דגש על כתיבת קוד נקי, מודולרי וקל לתחזוקה, תוך שימוש בטכנולוגיות החדישות ביותר. כל פרויקט הוא עבורי הזדמנות ללמוד, לצמוח ולהביא ערך אמיתי. אני שואף לשלמות בכל פרט, ומתחייב לספק מוצרים ברמה הגבוהה ביותר.",
-};
-
-const services = [
+const timelineData = [
     {
-        icon: <Code size={30} className="text-lime-400" />,
-        title: "פיתוח Full-Stack",
-        description: "בניית אפליקציות ווב מקצה לקצה עם חווית משתמש מדהימה וביצועים אופטימליים."
+        age: "17",
+        title: "הניצוץ הראשון",
+        description: "כניסה לעולם הפיתוח. למידה עצמית של ארכיטקטורת תוכנה ופיתוח אלגוריתמים מורכבים.",
+        icon: <Code className="text-sky-500" size={24} />
     },
     {
-        icon: <Puzzle size={30} className="text-lime-400" />,
-        title: "אוטומציה וסקריפטים",
-        description: "יצירת כלים וסקריפטים לאוטומציה של תהליכים משעממים וייעול העבודה."
+        age: "18",
+        title: "Freelance & Solutions",
+        description: "הקמת תשתיות דיגיטליות לעסקים ופיתוח Full-Stack מותאם אישית ללקוחות בשוק החופשי.",
+        icon: <BriefcaseBusiness className="text-sky-500" size={24} />
     },
     {
-        icon: <Terminal size={30} className="text-lime-400" />,
-        title: "פתרונות מותאמים אישית",
-        description: "פיתוח פתרונות תוכנה ייחודיים המותאמים בדיוק לצרכים העסקיים שלך."
+        age: "19",
+        title: "חזית הטכנולוגיה - צה״ל",
+        description: "מפתח מערכות ליבה קריטיות בחיל השריון. עבודה על טכנולוגיות זמן-אמת תחת תנאי קצה.",
+        icon: <ShieldCheck className="text-sky-500" size={24} />
     }
 ];
 
-// Refactored Navbar Component with Mobile Configuration
-const Navbar = () => {
+const techStack = [
+    { name: 'Next.js', icon: 'nextjs2' },
+    { name: 'TypeScript', icon: 'typescript' },
+    { name: 'React', icon: 'reactjs' },
+    { name: 'Python', icon: 'python' },
+    { name: 'Node.js', icon: 'nodejs' },
+    { name: 'Tailwind CSS', icon: 'tailwindcss' },
+    { name: 'PostgreSQL', icon: 'postgresql' },
+    { name: 'MongoDB', icon: 'mongodb' },
+    { name: 'Git', icon: 'git' },
+    { name: 'C#', icon: 'csharp' }
+];
+
+// --- COMPONENTS ---
+
+const BackgroundGradient = () => (
+    <div className="fixed inset-0 -z-10 overflow-hidden">
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-sky-200/30 blur-[120px] animate-pulse" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-blue-200/20 blur-[120px]" />
+    </div>
+);
+
+export default function Portfolio() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [textLanguage, setTextLanguage] = useState("en");
+    const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+    const [formData, setFormData] = useState({ name: '', email: '', message: '' });
 
-    const scrollToSection = (id: string) => {
-        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-        setIsMenuOpen(false); // Close menu after navigation
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setStatus('loading');
+        try {
+            const response = await fetch('/api/email/send', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData),
+            });
+            if (response.ok) {
+                setStatus('success');
+                setFormData({ name: '', email: '', message: '' });
+                setTimeout(() => setStatus('idle'), 5000);
+            } else {
+                setStatus('error');
+            }
+        } catch (error) {
+            setStatus('error');
+        }
     };
 
     const navItems = [
-        { name: 'בית', id: 'home', icon: <Home size={20} /> },
-        { name: 'אודותיי', id: 'about', icon: <User size={20} /> },
-        { name: 'שירותים', id: 'services', icon: <BriefcaseBusiness size={20} /> },
-        { name: 'פרויקטים', id: 'projects', icon: <Code size={20} /> },
-        { name: 'טכנולוגיות', id: 'skills', icon: <Terminal size={20} /> },
-        { name: 'צור קשר', id: 'contact', icon: <Mail size={20} /> },
+        { name: 'בית', id: 'home', icon: <Home size={18} /> },
+        { name: 'המסע', id: 'timeline', icon: <Rocket size={18} /> },
+        { name: 'פרויקטים', id: 'projects', icon: <Code size={18} /> },
+        { name: 'צור קשר', id: 'contact', icon: <Mail size={18} /> },
     ];
 
-    // Animation variants for the mobile menu dropdown
-    const mobileMenuVariants = {
-        hidden: { y: -100, opacity: 0 },
-        visible: { y: 0, opacity: 1, transition: { type: "tween", ease: "easeOut", duration: 0.3 } },
-        exit: { y: -100, opacity: 0, transition: { type: "tween", ease: "easeIn", duration: 0.3 } },
-    };
-
-    // Animation variants for individual links in the mobile menu
-    const mobileLinkVariants = {
-        hidden: { opacity: 0, x: 20 },
-        visible: { opacity: 1, x: 0 },
-    };
-
-    useEffect(() => {
-        const userLanguage = navigator.language
-        if(userLanguage.startsWith("he") || userLanguage.startsWith("iw")){
-            setTextLanguage("he")
-        } else {
-            setTextLanguage("en")
-        }
-    }, [])
-
     return (
-        <motion.nav
-            initial={{ y: -100, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ type: "spring", stiffness: 100, damping: 15, delay: 0.2 }}
-            className="fixed top-0 left-0 right-0 z-50 bg-[#1A1A1A] bg-opacity-90 backdrop-blur-md shadow-lg py-4 px-8 border-b border-gray-800"
-        >
-            <div className="max-w-7xl mx-auto flex justify-between items-center" dir="rtl">
-                {/* Logo / Name */}
-                <motion.div
-                    initial={{ x: -20, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    transition={{ delay: 0.4 }}
-                    className="text-lime-400 text-3xl font-extrabold flex-shrink-0"
-                >
-                    <a href="#home" onClick={() => scrollToSection('home')} className="flex items-center">
-                        <Sparkle className="ml-2" size={30} strokeWidth={1.5} /> גל דדון
-                    </a>
-                </motion.div>
-
-                {/* Desktop Navigation */}
-                <ul className="hidden md:flex items-center space-x-8"> {/* Hidden on mobile, visible on md and up */}
-                    {navItems.map((item, index) => (
-                        <motion.li
-                            key={item.id}
-                            initial={{ y: -20, opacity: 0 }}
-                            animate={{ y: 0, opacity: 1 }}
-                            transition={{ delay: 0.5 + index * 0.1 }}
-                        >
-                            <a
-                                href={`#${item.id}`}
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    scrollToSection(item.id);
-                                }}
-                                className="flex items-center text-gray-300 hover:text-lime-400 transition-colors duration-300 text-lg font-medium whitespace-nowrap"
-                            >
-                                {item.icon}
-                                <span className="mr-2">{item.name}</span>
-                            </a>
-                        </motion.li>
-                    ))}
-                </ul>
-
-                {/* Mobile Menu Button (Hamburger/X icon) */}
-                <div className="md:hidden">
-                    <button
-                        onClick={() => setIsMenuOpen(!isMenuOpen)}
-                        className="text-gray-300 hover:text-lime-400 focus:outline-none focus:ring-2 focus:ring-lime-500 rounded-md p-2 transition-colors duration-200"
-                        aria-label="Toggle navigation"
-                    >
-                        {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+        <div dir="rtl" className="min-h-screen bg-[#F8FAFC] text-slate-900 font-sans selection:bg-sky-500 selection:text-white">
+            <BackgroundGradient />
+            
+            {/* Navbar */}
+            <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-4xl">
+                <div className="bg-white/70 backdrop-blur-xl border border-white/40 shadow-2xl rounded-3xl px-6 py-3 flex justify-between items-center">
+                    <div className="flex items-center gap-2 font-black text-sky-600 text-xl cursor-pointer" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
+                        <Sparkle size={24} className="animate-pulse" />
+                        <span>גל דדון</span>
+                    </div>
+                    <ul className="hidden md:flex items-center gap-6">
+                        {navItems.map((item) => (
+                            <li key={item.id}>
+                                <button onClick={() => document.getElementById(item.id)?.scrollIntoView({behavior:'smooth'})} className="flex items-center gap-1.5 text-slate-600 hover:text-sky-600 transition-all font-semibold text-sm hover:scale-105">
+                                    {item.icon} {item.name}
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
+                    <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="md:hidden p-2 text-slate-600">
+                        {isMenuOpen ? <X /> : <Menu />}
                     </button>
                 </div>
-            </div>
-
-            {/* Mobile Menu Dropdown with AnimatePresence */}
-            <AnimatePresence>
-                {isMenuOpen && (
-                    <motion.div
-                        initial="hidden"
-                        animate="visible"
-                        exit="exit"
-                        variants={mobileMenuVariants}
-                        // This dropdown will slide down from below the navbar
-                        className="md:hidden absolute top-full left-0 right-0 bg-[#1A1A1A] bg-opacity-95 shadow-lg py-4 border-t border-gray-800"
-                        dir="rtl"
-                    >
-                        <motion.ul
-                            className="flex flex-col items-center space-y-4"
-                            // Stagger children for entrance animation
-                            variants={{
-                                visible: { transition: { staggerChildren: 0.07, delayChildren: 0.1 } },
-                                hidden: { transition: { staggerChildren: 0.05, staggerDirection: -1 } },
-                            }}
-                        >
-                            {navItems.map((item) => (
-                                <motion.li
-                                    key={item.id}
-                                    variants={mobileLinkVariants} // Apply item animation variants
-                                >
-                                    <a
-                                        href={`#${item.id}`}
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            scrollToSection(item.id);
-                                        }}
-                                        className="flex items-center text-gray-100 hover:text-lime-400 transition-colors duration-300 text-xl font-medium py-2 px-4 rounded-md"
-                                    >
-                                        {item.icon}
-                                        <span className="mr-3">{item.name}</span>
-                                    </a>
-                                </motion.li>
+                <AnimatePresence>
+                    {isMenuOpen && (
+                        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="absolute top-20 left-0 right-0 bg-white/95 backdrop-blur-2xl rounded-3xl p-6 shadow-2xl border border-white/50 md:hidden flex flex-col gap-4 items-center">
+                            {navItems.map(item => (
+                                <button key={item.id} onClick={() => {document.getElementById(item.id)?.scrollIntoView({behavior:'smooth'}); setIsMenuOpen(false);}} className="text-lg font-bold text-slate-700 flex items-center gap-3">
+                                    {item.icon} {item.name}
+                                </button>
                             ))}
-                        </motion.ul>
-                    </motion.div>
-                )}
-            </AnimatePresence>
-        </motion.nav>
-    );
-};
-
-export default function ReimaginedPortfolio() {
-    const [form, setForm] = useState({ name: '', email: '', message: '' });
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setForm({ ...form, [e.target.name]: e.target.value });
-    const [status, setStatus] = React.useState<{ type: 'success' | 'error'; message: string } | null>(null);
-    const [loading, setLoading] = React.useState(false);
-
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        try {
-            setLoading(true);
-            const response = await fetch("/api/email/send", {
-                method: "POST",
-                body: JSON.stringify({
-                    email: form.email,
-                    name: form.name,
-                    message: form.message
-                }),
-                headers: { "Content-Type": "application/json" }
-            });
-            const data = await response.json();
-            if (response.ok) {
-                setStatus({ type: 'success', message: `תודה ${form.name}, אהיה בקשר בקרוב!` });
-                setForm({ name: '', email: '', message: '' });
-            } else {
-                setStatus({ type: 'error', message: data.error || "משהו השתבש. אנא נסה שוב." });
-            }
-        } catch (error) {
-            console.error("Submission error:", error);
-            setStatus({ type: 'error', message: "שגיאת רשת. אנא נסה שוב מאוחר יותר." });
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.1
-            }
-        }
-    };
-
-    const itemVariants = {
-        hidden: { opacity: 0, y: 20 },
-        visible: { opacity: 1, y: 0 }
-    };
-
-    return (
-        <div dir="rtl" className="min-h-screen bg-[#0A0A0A] text-gray-100 font-sans antialiased px-4 py-16 selection:bg-lime-400 selection:text-black">
-            <Navbar />
-
-            {/* Offset for fixed navbar. Adjust pt- value to be slightly more than navbar height */}
-            <div id="home" className="pt-24 md:pt-32">
-                {/* Hero Section */}
-                <motion.div
-                    initial="hidden"
-                    animate="visible"
-                    variants={containerVariants}
-                    className="max-w-6xl mx-auto mb-24 flex flex-col md:flex-row items-center gap-12 text-right"
-                >
-                    <header className="flex-1 text-center md:text-right">
-                        <motion.h1
-                        variants={itemVariants}
-                        dir="rtl"
-                        className="text-6xl font-extrabold mb-4 tracking-tight text-lime-400 text-right"
-                        >
-                            <TypeAnimation
-                                sequence={[
-                                'גל דדון', // types
-                                2000,      // waits 2s
-                                '',        // deletes
-                                1000,      // waits 1s
-                                ]}
-                                wrapper="span"
-                                speed={80}
-                                repeat={Infinity}
-                                className="inline-block"
-                            />
-                        </motion.h1>
-
-
-                        <motion.p
-                            variants={itemVariants}
-                            className="text-xl max-w-xl text-gray-300 leading-relaxed mb-6"
-                        >
-                            מפתח תוכנה חדשני עם התמחות בבניית יישומים חזקים, סקלביליים וידידותיים למשתמש.
-                        </motion.p>
-                        <motion.button
-                            variants={itemVariants}
-                            className="mt-6 px-8 py-4 bg-lime-500 hover:bg-lime-600 text-black font-bold rounded-lg shadow-lg transition-all duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 flex items-center justify-center md:justify-end mx-auto md:mr-0"
-                            onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
-                        >
-                            <MessageSquare className="ml-3" size={24} /> בואו נדבר!
-                        </motion.button>
-                    </header>
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 1, delay: 0.8, type: "spring", stiffness: 100, damping: 10 }}
-                        className="flex-1 w-full max-w-xs md:max-w-md rounded-full border-3 border-lime-500 overflow-hidden shadow-2xl "
-                    >
-                        <img
-                            src="/me.jpeg"
-                            alt="גל דדון"
-                            className="w-full h-full object-cover object-center"
-                        />
-                    </motion.div>
-                </motion.div>
-            </div>
-
-            {/* --- */}
-            {/* About Section */}
-            <section id="about" className="max-w-6xl mx-auto mb-24 py-16 bg-[#1A1A1A] rounded-2xl shadow-xl border border-gray-800 scroll-mt-24">
-                <motion.h2
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.2 }}
-                    transition={{ duration: 0.7, delay: 0.2 }}
-                    className="text-5xl font-bold mb-12 text-center text-lime-400 flex items-center justify-center"
-                >
-                    <User className="ml-4 text-lime-300" size={48} strokeWidth={1.5} /> אודותיי
-                </motion.h2>
-                <div className="text-gray-300 text-lg leading-relaxed px-8 text-right space-y-6">
-                    <motion.p
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, amount: 0.2 }}
-                        transition={{ duration: 0.6, delay: 0.3 }}
-                    >
-                        {aboutContent.paragraph1}
-                    </motion.p>
-                    <motion.p
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, amount: 0.2 }}
-                        transition={{ duration: 0.6, delay: 0.4 }}
-                    >
-                        {aboutContent.paragraph2}
-                    </motion.p>
-                </div>
-            </section>
-
-            {/* --- */}
-            {/* Services Section */}
-            <section id="services" className="max-w-6xl mx-auto mb-24 py-16 scroll-mt-24">
-                <motion.h2
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.2 }}
-                    transition={{ duration: 0.7, delay: 0.2 }}
-                    className="text-5xl font-bold mb-12 text-center text-lime-400 flex items-center justify-center"
-                >
-                    <BriefcaseBusiness className="ml-4 text-lime-300" size={48} strokeWidth={1.5} /> מה אני מציע
-                </motion.h2>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-                    {services.map((service, i) => (
-                        <motion.div
-                            key={i}
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, amount: 0.2 }}
-                            transition={{ delay: 0.2 + i * 0.15, duration: 0.6, ease: 'easeOut' }}
-                            className="bg-[#1A1A1A] rounded-2xl p-8 text-center shadow-xl border border-gray-800 transform hover:scale-[1.02] transition-transform duration-300"
-                        >
-                            <div className="mb-4 flex justify-center">{service.icon}</div>
-                            <h3 className="text-2xl font-semibold mb-3 text-white">{service.title}</h3>
-                            <p className="text-gray-300 leading-relaxed">{service.description}</p>
                         </motion.div>
-                    ))}
+                    )}
+                </AnimatePresence>
+            </nav>
+
+            {/* Hero Section */}
+            <section id="home" className="pt-52 pb-32 px-6">
+                <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12">
+                    <motion.div initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} className="flex-1 text-center md:text-right">
+                        <div className="inline-block px-4 py-1.5 mb-6 rounded-full bg-sky-100 text-sky-700 font-bold text-sm animate-bounce">זמין לפרויקטים חדשים 🚀</div>
+                        <h1 className="text-6xl md:text-8xl font-black mb-6 leading-[1.1] bg-gradient-to-l from-slate-900 via-sky-800 to-sky-600 bg-clip-text text-transparent">
+                            <TypeAnimation sequence={['גל דדון', 2000, 'Software Eng.', 2000]} repeat={Infinity} />
+                        </h1>
+                        <p className="text-xl text-slate-500 mb-10 max-w-xl font-medium">מפתח פתרונות קצה-לקצה, מתמחה במערכות מורכבות, ארכיטקטורה נקייה וחווית משתמש שלא שוכחים.</p>
+                        <div className="flex flex-wrap gap-4 justify-center md:justify-start">
+                            <button onClick={() => document.getElementById('contact')?.scrollIntoView({behavior:'smooth'})} className="px-10 py-4 bg-sky-600 text-white font-black rounded-2xl shadow-xl hover:bg-sky-700 transition-all hover:-translate-y-1">בואו נתחיל</button>
+                            <button onClick={() => document.getElementById('projects')?.scrollIntoView({behavior:'smooth'})} className="px-10 py-4 bg-white text-slate-900 font-black rounded-2xl border border-slate-200 hover:bg-slate-50 transition-all">לצפייה בעבודות</button>
+                        </div>
+                    </motion.div>
+                    <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} className="relative group">
+                        <div className="absolute inset-0 bg-sky-400 rounded-full blur-[100px] opacity-20 animate-pulse" />
+                        <div className="relative w-80 h-80 md:w-[450px] md:h-[450px] bg-gradient-to-tr from-sky-400 to-blue-600 rounded-[4rem] rotate-6 group-hover:rotate-3 transition-all duration-500 overflow-hidden shadow-2xl">
+                            <img src="/me.jpeg" className="w-full h-full object-cover -rotate-6 group-hover:rotate-0 transition-transform duration-500 scale-110" alt="גל דדון" />
+                        </div>
+                    </motion.div>
                 </div>
             </section>
 
-            {/* --- */}
-            {/* Projects Section */}
-            <section id="projects" className="max-w-7xl mx-auto mb-24 py-16 scroll-mt-24">
-                <motion.h2
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.2 }}
-                    transition={{ duration: 0.7, delay: 0.2 }}
-                    className="text-5xl font-bold mb-12 text-center text-lime-400 flex items-center justify-center"
-                >
-                    <Code className="ml-4 text-lime-300" size={48} strokeWidth={1.5} /> הפרויקטים שלי
-                </motion.h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
-                    {projects.map(({ title, description, url, image }, i) => (
-                        <motion.a
-                            key={title}
-                            href={url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, amount: 0.2 }}
-                            transition={{ delay: 0.2 + i * 0.1, duration: 0.5, ease: 'easeOut' }}
-                            className="transform hover:scale-105 transition-transform duration-300 rounded-xl overflow-hidden shadow-xl bg-[#1A1A1A] hover:bg-[#2A2A2A] border border-gray-800"
-                        >
-                            <img src={image} alt={title} className="w-full h-48 object-cover" loading="lazy" />
-                            <div className="p-6 text-right">
-                                <h3 className="text-2xl font-semibold mb-2 text-white">{title}</h3>
-                                <p className="text-gray-300 text-sm">{description}</p>
+            {/* Technologies Section */}
+            <section className="py-24 px-6 overflow-hidden">
+                <div className="max-w-6xl mx-auto">
+                    <h2 className="text-center text-slate-400 font-bold uppercase tracking-[0.2em] text-sm mb-12">הכלים שבאמצעותם אני בונה</h2>
+                    <div className="flex flex-wrap justify-center gap-8 md:gap-12 opacity-70 transition-all duration-700">
+                        {techStack.map((tech) => (
+                            <div key={tech.name} className="flex flex-col items-center gap-2 group">
+                                <StackIcon name={tech.icon} className="w-12 h-12 md:w-16 md:h-16 group-hover:scale-110 transition-transform duration-300" />
+                                <span className="text-[10px] font-bold text-slate-400 group-hover:text-sky-600">{tech.name}</span>
                             </div>
-                        </motion.a>
-                    ))}
-                </div>
-            </section>
-
-            {/* --- */}
-            {/* Skills Section */}
-            <section id="skills" className="max-w-6xl mx-auto mb-24 py-16 scroll-mt-24">
-                <motion.h2
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.2 }}
-                    transition={{ duration: 0.7, delay: 0.2 }}
-                    className="text-5xl font-bold mb-12 text-center text-lime-400 flex items-center justify-center"
-                >
-                    <Terminal className="ml-4 text-lime-300" size={48} strokeWidth={1.5} /> טכנולוגיות
-                </motion.h2>
-                <motion.div
-                    className="flex flex-wrap justify-center gap-14"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.2 }}
-                    transition={{ duration: 0.8, delay: 0.3 }}
-                >
-                    {skills.map(({ name, iconName }) => (
-                        <motion.div
-                            key={name}
-                            className="flex flex-col items-center space-y-3 text-gray-300 cursor-default"
-                            whileHover={{ scale: 1.15, color: '#A3E635' }}
-                            transition={{ type: 'spring', stiffness: 900, damping: 15 }}
-                        >
-                            <StackIcon name={iconName} className="w-18 h-18 text-gray-200" />
-                            <span className="mt-2 text-lg font-medium">{name}</span>
-                        </motion.div>
-                    ))}
-                </motion.div>
-            </section>
-
-            {/* --- */}
-            {/* Contact Section */}
-            <motion.section
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.8, delay: 0.3 }}
-                id='contact'
-                className="max-w-4xl mx-auto bg-[#1A1A1A] rounded-2xl p-10 shadow-lg border border-gray-800 scroll-mt-24"
-            >
-                <h2 className="text-4xl font-bold mb-6 text-center text-lime-400 flex items-center justify-center">
-                    <Mail className="ml-4 text-lime-300" size={40} strokeWidth={1.5} /> בואו נדבר
-                </h2>
-                <p className="text-center text-gray-300 mb-8 text-lg">
-                    יש לכם פרויקט בראש? רוצים לשתף פעולה? או סתם רוצים להגיד שלום? אני זמין לשמוע!
-                </p>
-                <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-                    <input
-                        type="text"
-                        name="name"
-                        placeholder="שמך המלא"
-                        value={form.name}
-                        onChange={handleChange}
-                        required
-                        className="p-4 rounded-lg bg-[#0A0A0A] placeholder-gray-500 text-gray-100 focus:outline-none focus:ring-2 focus:ring-lime-500 text-right border border-gray-700"
-                    />
-                    <input
-                        type="email"
-                        name="email"
-                        placeholder="כתובת אימייל"
-                        value={form.email}
-                        onChange={handleChange}
-                        required
-                        className="p-4 rounded-lg bg-[#0A0A0A] placeholder-gray-500 text-gray-100 focus:outline-none focus:ring-2 focus:ring-lime-500 text-right border border-gray-700"
-                    />
-                    <textarea
-                        name="message"
-                        placeholder="הקלד את ההודעה שלך כאן..."
-                        value={form.message}
-                        onChange={handleChange}
-                        required
-                        rows={6}
-                        className="p-4 rounded-lg bg-[#0A0A0A] placeholder-gray-500 text-gray-100 focus:outline-none focus:ring-2 focus:ring-lime-500 resize-none text-right border border-gray-700"
-                    />
-                    <button
-                        type="submit"
-                        disabled={loading}
-                        className={`text-black shadow-md font-bold py-4 rounded-lg transition-all duration-300 ease-in-out flex items-center justify-center ${
-                            loading ? "bg-gray-500 cursor-not-allowed" : "bg-lime-500 hover:bg-lime-600 transform hover:-translate-y-0.5 hover:scale-[1.01]"
-                        }`}
-                    >
-                        {loading ? "שולח..." : <><MessageSquare className="ml-3" size={24} /> שלח הודעה</>}
-                    </button>
-                </form>
-                <div className="mt-10 text-center text-gray-300 text-lg">
-                    <p className="mb-4">ניתן ליצור איתי קשר גם כאן:</p>
-                    <div className="flex flex-wrap justify-center gap-x-8 gap-y-4">
-                        <p className="flex items-center">
-                            <Instagram className="ml-2" size={20} />
-                            אינסטגרם:{' '}
-                            <a
-                                href="https://instagram.com/gal_dadon1212"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-lime-400 hover:underline hover:text-lime-300 transition-colors mr-1"
-                            >
-                                @gal_dadon1212
-                            </a>
-                        </p>
-                        <p className="flex items-center">
-                            <GitBranch className="ml-2" size={20} />
-                            גיטהאב:{' '}
-                            <a
-                                href="https://github.com/GaGex1222"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-lime-400 hover:underline hover:text-lime-300 transition-colors mr-1"
-                            >
-                                @GaGex1222
-                            </a>
-                        </p>
-                        <p className="flex items-center">
-                            <Linkedin className="ml-2" size={20} />
-                            לינקדאין:{' '}
-                            <a
-                                href="https://www.linkedin.com/in/gal-dadon-58ba19307/"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-lime-400 hover:underline hover:text-lime-300 transition-colors mr-1"
-                            >
-                                @Gal Dadon
-                            </a>
-                        </p>
-                        <p className="flex items-center">
-                            דיסקורד: <span className="text-lime-400 mr-1">GaGex</span>
-                        </p>
+                        ))}
                     </div>
                 </div>
-                {status && (
-                    <motion.div
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className={`mt-6 p-4 rounded-md text-center font-semibold ${
-                            status.type === "success"
-                                ? "bg-emerald-700 text-emerald-100"
-                                : "bg-red-700 text-red-100"
-                        }`}
-                    >
-                        {status.message}
-                    </motion.div>
-                )}
-            </motion.section>
+            </section>
 
-            {/* Footer */}
-            <footer className="text-center text-gray-500 mt-24 border-t border-gray-800 pt-8 text-sm">
-                <p>© {new Date().getFullYear()} גל דדון. כל הזכויות שמורות.</p>
-                <p className="mt-1 text-xs">נבנה עם תשוקה ויצירתיות ✨ באמצעות Next.js, Tailwind, ו-Framer Motion</p>
+            {/* Timeline */}
+            <section id="timeline" className="py-32 px-6">
+                <div className="max-w-4xl mx-auto">
+                    <div className="text-center mb-20">
+                        <h2 className="text-4xl md:text-5xl font-black mb-4 tracking-tight">הסיפור שלי</h2>
+                        <div className="h-1.5 w-20 bg-sky-500 mx-auto rounded-full" />
+                    </div>
+                    <div className="space-y-8 relative">
+                        <div className="absolute top-0 bottom-0 right-[40px] w-1 bg-gradient-to-b from-sky-500 via-blue-200 to-transparent rounded-full hidden md:block" />
+                        {timelineData.map((item, i) => (
+                            <motion.div key={i} whileInView={{ opacity: 1, y: 0 }} initial={{ opacity: 0, y: 30 }} viewport={{ once: true }} className="relative md:pr-24 group">
+                                <div className="hidden md:flex absolute right-0 top-0 w-20 h-20 bg-white shadow-xl rounded-3xl items-center justify-center text-sky-600 z-10 border border-slate-50 group-hover:scale-110 transition-transform">
+                                    <span className="text-xl font-black">{item.age}</span>
+                                </div>
+                                <div className="bg-white p-10 rounded-[2.5rem] border border-slate-100 shadow-sm group-hover:shadow-2xl transition-all duration-500">
+                                    <div className="flex items-center gap-4 mb-4">
+                                        <div className="p-3 bg-sky-50 text-sky-600 rounded-2xl">{item.icon}</div>
+                                        <h3 className="text-2xl font-black">{item.title}</h3>
+                                    </div>
+                                    <p className="text-slate-500 text-lg leading-relaxed">{item.description}</p>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* Projects */}
+            <section id="projects" className="py-32 bg-white/50">
+                <div className="max-w-7xl mx-auto px-6">
+                    <div className="flex justify-between items-end mb-16">
+                        <div>
+                            <h2 className="text-4xl font-black mb-2">פרויקטים נבחרים</h2>
+                            <p className="text-slate-500 font-medium">בניית פתרונות חכמים לבעיות מורכבות</p>
+                        </div>
+                        <a href="https://github.com/GaGex1222" target="_blank" className="hidden md:flex items-center gap-2 text-sky-600 font-bold hover:gap-4 transition-all">ל-GitHub המלא <ChevronLeft size={20}/></a>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {projects.map((p, i) => (
+                            <motion.a href={p.url} key={i} whileHover={{ y: -10 }} className="group bg-white rounded-[2.5rem] overflow-hidden shadow-xl border border-slate-100 flex flex-col">
+                                <div className="h-64 overflow-hidden relative">
+                                    <img src={p.image} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt={p.title} />
+                                    <div className="absolute bottom-4 right-4 flex flex-wrap gap-2">
+                                        {p.tags.map(tag => (
+                                            <span key={tag} className="px-3 py-1 bg-white/90 backdrop-blur-md rounded-full text-[10px] font-black text-sky-600 uppercase">{tag}</span>
+                                        ))}
+                                    </div>
+                                </div>
+                                <div className="p-8 text-right flex-1">
+                                    <h3 className="text-xl font-black mb-3 group-hover:text-sky-600 transition-colors">{p.title}</h3>
+                                    <p className="text-slate-500 text-sm leading-relaxed line-clamp-2">{p.description}</p>
+                                </div>
+                            </motion.a>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* Contact */}
+            <section id="contact" className="py-40 px-6">
+                <div className="max-w-5xl mx-auto">
+                    <div className="bg-slate-900 rounded-[3.5rem] p-12 md:p-20 text-white relative overflow-hidden shadow-2xl">
+                        <div className="absolute top-0 right-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10" />
+                        <div className="relative z-10 grid md:grid-cols-2 gap-16 items-center">
+                            <div>
+                                <h2 className="text-4xl md:text-5xl font-black mb-6">יש לכם רעיון?<br/><span className="text-sky-400">בואו נהפוך אותו לקוד.</span></h2>
+                                <p className="text-slate-400 text-lg mb-10">אני פתוח לשיתופי פעולה מעניינים, פרויקטים מאתגרים או סתם שיחה על טכנולוגיה.</p>
+                                <div className="space-y-6">
+                                    <div className="flex items-center gap-4">
+                                        <div className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center text-sky-400 border border-white/10"><Mail size={24}/></div>
+                                        <span className="font-bold text-lg">galdadon@galdadon.com</span>
+                                    </div>
+                                    <div className="flex gap-4">
+                                        <a href="https://linkedin.com" target="_blank" className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center hover:bg-sky-600 transition-all border border-white/10"><Linkedin size={22}/></a>
+                                        <a href="https://github.com/GaGex1222" target="_blank" className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center hover:bg-sky-600 transition-all border border-white/10"><GitBranch size={22}/></a>
+                                        <a href="https://instagram.com/gal_dadon1212" target="_blank" className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center hover:bg-sky-600 transition-all border border-white/10"><Instagram size={22}/></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <form onSubmit={handleSubmit} className="bg-white/5 backdrop-blur-md p-8 rounded-[2.5rem] border border-white/10 space-y-4">
+                                <input required type="text" placeholder="שם מלא" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} className="w-full p-5 rounded-2xl bg-white/5 border border-white/10 outline-none focus:border-sky-500 transition-all font-bold placeholder:text-slate-500 text-white" />
+                                <input required type="email" placeholder="אימייל" value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} className="w-full p-5 rounded-2xl bg-white/5 border border-white/10 outline-none focus:border-sky-500 transition-all font-bold placeholder:text-slate-500 text-white" />
+                                <textarea required placeholder="ספרו לי על הפרויקט..." value={formData.message} onChange={(e) => setFormData({...formData, message: e.target.value})} rows={4} className="w-full p-5 rounded-2xl bg-white/5 border border-white/10 outline-none focus:border-sky-500 transition-all font-bold placeholder:text-slate-500 text-white resize-none" />
+                                <button disabled={status === 'loading'} className={`w-full py-5 font-black rounded-2xl transition-all flex items-center justify-center gap-2 ${status === 'loading' ? 'bg-slate-700 cursor-not-allowed' : status === 'success' ? 'bg-green-500 shadow-green-500/20' : 'bg-sky-500 hover:bg-sky-400 shadow-sky-500/20'}`}>
+                                    {status === 'loading' ? <><Loader2 className="animate-spin" /> שולח...</> : status === 'success' ? 'הודעה נשלחה!' : 'שגר הודעה'}
+                                </button>
+                                {status === 'error' && <p className="text-red-400 text-center text-sm font-bold mt-2">אופס! חלה שגיאה בשליחה.</p>}
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <footer className="py-12 text-center text-slate-400 font-bold text-sm">
+                <p>© {new Date().getFullYear()} גל דדון — עוצב ונבנה עם המון קוד.</p>
             </footer>
         </div>
     );

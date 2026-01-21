@@ -17,6 +17,7 @@ export async function POST(req: Request) {
             text: `${message}\n\nName: ${name} \n\nReply to: ${email}`
         });
     } catch(err){
+        console.log("Error occured when tried sending email: ", err)
         return NextResponse.json({ success: false }, {status: 500})
     }
     return NextResponse.json({ success: true }, {status: 200})
