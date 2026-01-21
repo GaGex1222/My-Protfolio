@@ -29,11 +29,18 @@ const projects = [
         tags: ['AI', 'Python', 'React']
     },
     {
+        title: 'בוט דיסקורד למשחק - Osu!',
+        description: 'בוט שמשמש בין חברים לבדיקת ציונים במשחק, הכל בזמן אמת ומזהה מפות במשחק לפי שם עם Selenium.',
+        url: 'https://github.com/GaGex1222/osu-friends-discord-bot',
+        image: '/osu.png',
+        tags: ['Python', "Websockets", "Discord", "Selenium"]
+    },
+    {
         title: 'NewChemi',
         description: 'אתר נחיתה מקצועי שנבנה עבור עסק לייבוא כימיקלים, תוך דגש על מהירות וביצועים.',
         url: 'https://newchemi.com',
         image: '/newchemi.png',
-        tags: ['Next.js', 'UI/UX']
+        tags: ['Next.js', 'UI/UX', 'Tailwind']
     }
 ];
 
@@ -258,7 +265,7 @@ export default function Portfolio() {
                                 <div className="space-y-6">
                                     <div className="flex items-center gap-4">
                                         <div className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center text-sky-400 border border-white/10"><Mail size={24}/></div>
-                                        <span className="font-bold text-lg">galdadon@galdadon.com</span>
+                                        <span className="font-bold text-lg">gald12123434@gmail.com</span>
                                     </div>
                                     <div className="flex gap-4">
                                         <a href="https://linkedin.com" target="_blank" className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center hover:bg-sky-600 transition-all border border-white/10"><Linkedin size={22}/></a>
