@@ -8,6 +8,20 @@ import { TypeAnimation } from 'react-type-animation';
 // --- DATA ---
 const projects = [
     {
+        title: 'Delivery Now',
+        description: 'אתר משלוחים מלא עם עדכונים בזמן אמת ומערכת תשלומים מובנית — חווית הזמנה חלקה מהקצה לקצה.',
+        url: 'https://www.deliverynow.it.com/',
+        image: '/Screenshot_278.png',
+        tags: ['Next.js', 'Real-time', 'Payments']
+    },
+    {
+        title: 'בוט דיסקורד למשחק - Osu!',
+        description: 'בוט שמשמש בין חברים לבדיקת ציונים במשחק, הכל בזמן אמת ומזהה מפות במשחק לפי שם עם Selenium.',
+        url: 'https://github.com/GaGex1222/osu-friends-discord-bot',
+        image: '/osu.png',
+        tags: ['Python', "Websockets", "Discord", "Selenium"]
+    },
+    {
         title: 'רמיקוב מרובה משתתפים',
         description: 'משחק רמיקוב מלא עם Real-time WebSockets. חווית משחק חלקה וממשק משתמש מודרני.',
         url: 'https://github.com/GaGex1222/RummikubMultiplayer',
@@ -27,13 +41,6 @@ const projects = [
         url: 'https://github.com/GaGex1222/Mood-Sync#',
         image: '/moodsync.png',
         tags: ['AI', 'Python', 'React']
-    },
-    {
-        title: 'בוט דיסקורד למשחק - Osu!',
-        description: 'בוט שמשמש בין חברים לבדיקת ציונים במשחק, הכל בזמן אמת ומזהה מפות במשחק לפי שם עם Selenium.',
-        url: 'https://github.com/GaGex1222/osu-friends-discord-bot',
-        image: '/osu.png',
-        tags: ['Python', "Websockets", "Discord", "Selenium"]
     },
     {
         title: 'NewChemi',
@@ -237,9 +244,33 @@ export default function Portfolio() {
                         </div>
                         <a href="https://github.com/GaGex1222" target="_blank" className="flex items-center gap-2 text-sky-600 font-bold hover:gap-4 transition-all">ל-GitHub המלא <ChevronLeft size={20}/></a>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {projects.map((p, i) => (
-                            <motion.a href={p.url} key={i} whileHover={{ y: -10 }} className="group bg-white rounded-[2.5rem] overflow-hidden shadow-xl border border-slate-100 flex flex-col">
+
+                    {/* Featured project – Delivery Now */}
+                    <motion.a href={projects[0].url} target="_blank" whileHover={{ y: -6 }} className="group block bg-white rounded-[2.5rem] overflow-hidden shadow-2xl border border-slate-100 mb-8">
+                        <div className="flex flex-col md:flex-row">
+                            <div className="md:w-3/5 h-72 md:h-auto overflow-hidden relative">
+                                <img src={projects[0].image} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt={projects[0].title} />
+                                <div className="absolute top-4 right-4">
+                                    <span className="px-4 py-1.5 bg-sky-600 text-white rounded-full text-xs font-black uppercase tracking-wider shadow-lg">פרויקט מוביל ⭐</span>
+                                </div>
+                            </div>
+                            <div className="md:w-2/5 p-8 md:p-12 flex flex-col justify-center text-right">
+                                <div className="flex flex-wrap gap-2 mb-5 justify-end">
+                                    {projects[0].tags.map(tag => (
+                                        <span key={tag} className="px-3 py-1 bg-sky-50 rounded-full text-[11px] font-black text-sky-600 uppercase">{tag}</span>
+                                    ))}
+                                </div>
+                                <h3 className="text-3xl md:text-4xl font-black mb-4 group-hover:text-sky-600 transition-colors">{projects[0].title}</h3>
+                                <p className="text-slate-500 text-base md:text-lg leading-relaxed mb-6">{projects[0].description}</p>
+                                <span className="inline-flex items-center gap-2 text-sky-600 font-black text-sm self-end group-hover:gap-4 transition-all">צפה בפרויקט <ChevronLeft size={18}/></span>
+                            </div>
+                        </div>
+                    </motion.a>
+
+                    {/* Second tier – Discord Bot + Rummikub */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                        {projects.slice(1, 3).map((p, i) => (
+                            <motion.a href={p.url} target="_blank" key={i} whileHover={{ y: -10 }} className="group bg-white rounded-[2.5rem] overflow-hidden shadow-xl border border-slate-100 flex flex-col">
                                 <div className="h-64 overflow-hidden relative">
                                     <img src={p.image} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt={p.title} />
                                     <div className="absolute bottom-4 right-4 flex flex-wrap gap-2">
@@ -250,6 +281,26 @@ export default function Portfolio() {
                                 </div>
                                 <div className="p-8 text-right flex-1">
                                     <h3 className="text-xl font-black mb-3 group-hover:text-sky-600 transition-colors">{p.title}</h3>
+                                    <p className="text-slate-500 text-sm leading-relaxed line-clamp-2">{p.description}</p>
+                                </div>
+                            </motion.a>
+                        ))}
+                    </div>
+
+                    {/* Rest of projects */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {projects.slice(3).map((p, i) => (
+                            <motion.a href={p.url} target="_blank" key={i} whileHover={{ y: -10 }} className="group bg-white rounded-[2.5rem] overflow-hidden shadow-xl border border-slate-100 flex flex-col">
+                                <div className="h-52 overflow-hidden relative">
+                                    <img src={p.image} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt={p.title} />
+                                    <div className="absolute bottom-4 right-4 flex flex-wrap gap-2">
+                                        {p.tags.map(tag => (
+                                            <span key={tag} className="px-3 py-1 bg-white/90 backdrop-blur-md rounded-full text-[10px] font-black text-sky-600 uppercase">{tag}</span>
+                                        ))}
+                                    </div>
+                                </div>
+                                <div className="p-7 text-right flex-1">
+                                    <h3 className="text-lg font-black mb-2 group-hover:text-sky-600 transition-colors">{p.title}</h3>
                                     <p className="text-slate-500 text-sm leading-relaxed line-clamp-2">{p.description}</p>
                                 </div>
                             </motion.a>
