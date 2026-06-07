@@ -15,6 +15,13 @@ const projects = [
         tags: ['Next.js', 'Real-time', 'Payments']
     },
     {
+        title: 'ShieldUp',
+        description: 'פלטפורמת אבטחה מתקדמת להגנה על עסקים — ניטור בזמן אמת, ניהול איומים וממשק ניהול מרכזי.',
+        url: 'https://github.com/GaGex1222/ShieldUp',
+        image: '/shieldup_hero.png',
+        tags: ['Security', 'Next.js', 'Real-time']
+    },
+    {
         title: 'בוט דיסקורד למשחק - Osu!',
         description: 'בוט שמשמש בין חברים לבדיקת ציונים במשחק, הכל בזמן אמת ומזהה מפות במשחק לפי שם עם Selenium.',
         url: 'https://github.com/GaGex1222/osu-friends-discord-bot',
