@@ -17,7 +17,7 @@ const projects = [
     {
         title: 'ShieldUp',
         description: 'פלטפורמת אבטחה מתקדמת להגנה על עסקים — ניטור בזמן אמת, ניהול איומים וממשק ניהול מרכזי.',
-        url: 'https://github.com/GaGex1222/ShieldUp',
+        url: 'https://shieldup.tech',
         image: '/shieldup_hero.png',
         tags: ['Security', 'Next.js', 'Real-time']
     },
@@ -274,41 +274,22 @@ export default function Portfolio() {
                         </div>
                     </motion.a>
 
-                    {/* Second tier – Discord Bot + Rummikub */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-                        {projects.slice(1, 3).map((p, i) => (
-                            <motion.a href={p.url} target="_blank" key={i} whileHover={{ y: -10 }} className="group bg-white rounded-[2.5rem] overflow-hidden shadow-xl border border-slate-100 flex flex-col">
-                                <div className="h-64 overflow-hidden relative">
+                    {/* All other projects – uniform grid */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {projects.slice(1).map((p, i) => (
+                            <motion.a href={p.url} target="_blank" key={i} whileHover={{ y: -8 }} className="group bg-white rounded-[2rem] overflow-hidden shadow-xl border border-slate-100 flex flex-col">
+                                <div className="h-52 overflow-hidden relative shrink-0">
                                     <img src={p.image} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt={p.title} />
-                                    <div className="absolute bottom-4 right-4 flex flex-wrap gap-2">
+                                    <div className="absolute bottom-3 right-3 flex flex-wrap gap-1.5">
                                         {p.tags.map(tag => (
                                             <span key={tag} className="px-3 py-1 bg-white/90 backdrop-blur-md rounded-full text-[10px] font-black text-sky-600 uppercase">{tag}</span>
                                         ))}
                                     </div>
                                 </div>
-                                <div className="p-8 text-right flex-1">
-                                    <h3 className="text-xl font-black mb-3 group-hover:text-sky-600 transition-colors">{p.title}</h3>
-                                    <p className="text-slate-500 text-sm leading-relaxed line-clamp-2">{p.description}</p>
-                                </div>
-                            </motion.a>
-                        ))}
-                    </div>
-
-                    {/* Rest of projects */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {projects.slice(3).map((p, i) => (
-                            <motion.a href={p.url} target="_blank" key={i} whileHover={{ y: -10 }} className="group bg-white rounded-[2.5rem] overflow-hidden shadow-xl border border-slate-100 flex flex-col">
-                                <div className="h-52 overflow-hidden relative">
-                                    <img src={p.image} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt={p.title} />
-                                    <div className="absolute bottom-4 right-4 flex flex-wrap gap-2">
-                                        {p.tags.map(tag => (
-                                            <span key={tag} className="px-3 py-1 bg-white/90 backdrop-blur-md rounded-full text-[10px] font-black text-sky-600 uppercase">{tag}</span>
-                                        ))}
-                                    </div>
-                                </div>
-                                <div className="p-7 text-right flex-1">
+                                <div className="p-6 text-right flex flex-col flex-1">
                                     <h3 className="text-lg font-black mb-2 group-hover:text-sky-600 transition-colors">{p.title}</h3>
-                                    <p className="text-slate-500 text-sm leading-relaxed line-clamp-2">{p.description}</p>
+                                    <p className="text-slate-500 text-sm leading-relaxed line-clamp-3 flex-1">{p.description}</p>
+                                    <span className="inline-flex items-center gap-1.5 text-sky-600 font-black text-xs mt-4 self-end group-hover:gap-3 transition-all">צפה בפרויקט <ChevronLeft size={14}/></span>
                                 </div>
                             </motion.a>
                         ))}
